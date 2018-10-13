@@ -6,12 +6,12 @@ Public IP: 13.238.254.41
 SSH port : 2200  
 
 ## Table of Contents
-- [Create an instance of Ubuntu server Lightsail](#Create-an-instance-of-Ubuntu-server-Lightsail)
-- [Setting Up Your SSH Key Pair](#Setting-Up-Your-SSH-Key-Pair)
-- [Setting Up Graders SSH Key Pair](#Setting-Up-Graders-SSH-Key-Pair)
-- [Change Default SSH Port From 22 to 2200](#Change-Default-SSH-Port-From-22-to-2200)
-- [Enforcing SSH Key Login](#Enforcing-SSH-Key-Login)
-- [Setting Up Uncomplicated Firewall](#Setting-Up-Uncomplicated-Firewall)
+- [Create an instance of Ubuntu server Lightsail](#create-an-instance-of-ubuntu-server-lightsail)
+- [Setting Up Your SSH Key Pair](#setting-up-your-ssh-key-pair)
+- [Setting Up Graders SSH Key Pair](#setting-up-graders-ssh-key-pair)
+- [Change Default SSH Port From 22 to 2200](#change-default-ssh-port-from-22-to-2200)
+- [Enforcing SSH Key Login](#enforcing-ssh-key-login)
+- [Setting Up Uncomplicated Firewall](#setting-up-uncomplicated-firewall)
 
 - [Contributing](#contributing)
 - [Author](#author)
