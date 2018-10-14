@@ -48,9 +48,9 @@ file will be named like `LightsailDefaultPrivateKey-<your-resource-location>.pam
 > Because AWS has its own fire wall setup you may be locked out. So in your
 > browser open the instance of Ubunt. Hit Networking tab. Then in Firewall
 > section hit `+ Add another` rule button.  
-> Application | Protocol | Port Range  
-> ------------+----------+------------  
-> Custom      | TCP      | 2200  
+>| Application | Protocol | Port Range  |
+>| :---        | :---     | :---        | 
+>| Custom      | TCP      | 2200        |
 
 1. Edit `/etc/ssh/sshd_config` file by `$ sudo nano /etc/ssh/sshd_config`  
 2. Edit line with `Port 22` to `Port 2200`  
@@ -62,11 +62,11 @@ Now you should be able to login with
 
 ## Setting Up Uncomplicated Firewall
 Configure Ubuntu internal firewall (UFW) to only allow incoming traffic to  
-Protocol    | Port  
-------------+--------  
-SSH         | 2200  
-HTTP        | 80  
-NTP         | 123  
+| Protocol    | Port  | 
+| :---        | :---  |  
+| SSH         | 2200  | 
+| HTTP        | 80    | 
+| NTP         | 123   |
 
 `$ sudo ufw status` Check the status of firewall. It should be inactive by default.
 
