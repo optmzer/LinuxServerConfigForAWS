@@ -2,7 +2,7 @@
 Configuration steps to configure a Ubuntu server and deploy a flusk app on on AWS Lightsail.
 
 ## Server Details
-Public IP: 13.236.9.9  
+Public IP: 52.65.144.252  
 SSH port : 2200  
 
 ## Table of Contents
@@ -41,7 +41,7 @@ file will be named like `LightsailDefaultPrivateKey-<your-resource-location>.pam
 `mv LightsailDefaultPrivateKey-<your-resource-location>.pam lightsail-ssh-key.rsa`
 6. Change access mode to the file `chmod 600 lightsail-ssh-key.rsa`
 7. Connect to your server from your terminal  
-`$ ssh -i lightsail-ssh-key.rsa ubuntu@13.236.9.9`.
+`$ ssh -i lightsail-ssh-key.rsa ubuntu@52.65.144.252`.
 
 ## Change Default SSH Port From 22 to 2200
 >WARNING:
@@ -58,8 +58,11 @@ file will be named like `LightsailDefaultPrivateKey-<your-resource-location>.pam
 3. Save the change by Ctrl + X and exit from nano with Y  
 4. Restart SSH with `$ sudo service ssh restart`  
 
+>NOTE:
+>While we are at it we can disable ssh login as root user. As, by default AWS Ubuntu is >instanciated with `PermitRootLogin prohibit-password`. So we'll change that to >`PermitRootLogin no`
+
 Now you should be able to login with  
-`$ ssh -i lightsail-ssh-key.rsa ubuntu@13.236.9.9 -p 2200`.
+`$ ssh -i lightsail-ssh-key.rsa ubuntu@52.65.144.252 -p 2200`.
 
 ## Setting Up Uncomplicated Firewall
 Configure Ubuntu internal firewall (UFW) to only allow incoming traffic to  
@@ -86,29 +89,63 @@ Configure Ubuntu internal firewall (UFW) to only allow incoming traffic to
 2. Check firewall rules - `sudo ufw status`
 
 ## Creating New User "Grader"
-`$ sudo apt-get install finger` - To check if user was created correctly.
+`$ sudo apt-get install finger` - for later use to check if user was created correctly.
+`$ sudo adduser grader` - Adds new user to the system.
 
+## Give grader sudo access
+1. On AWS Ubuntu instance run `$ sudo ls -al /etc/sudoers.d` this will list file/s that contains a list of users who have `sudo` privileges. By default it called `90-cloud-init-users`
+
+2. `sudo cp /etc/sudoers.d/90-cloud-init-users /etc/sudoers.d/grader`
+3. `sudo visudo -f /etc/sudoers.d/grader`  
+Edit the file and leave only 1 line `grader ALL=(ALL) NOPASSWD:ALL`  
+4. `ctrl + x` - to save and `Y` to exit.  
+Now your grader should have `sudo` access to Ubuntu instance.
 
 ## Setting Up Graders SSH Key Pair
+On your local Linux system run `$ ssh-keygen`  
+The dialog will ask you to name the file. I named mine `grader-ssh-key.rsa`  
+Leave passphrase empty as we are not going to use it.  
+Your system will generate 2 files 
+1. `grader-ssh-key.pub` - This is your public key. This will go to AWS ububnu instance.
+2. `grader-ssh-key` - This is your private key, so keep it secret.
 
+On your AWS ubuntu instance:  
+1. Create `/etc/grader/.ssh` folder by `$ sudo mkdir /etc/grader/.ssh`  
+2. Create file with graders ssh public key by `$ sudo nano /etc/grader/.ssh/authorized_keys`  
+3. Copy content of `grader-ssh-key.pub` into `/etc/grader/.ssh/authorized_keys`
+4. `ctrl + x` - to exit and press Y to save.
+5. Change mode of .ssh directory - `$ sudo chmod 700 /home/grader/.ssh`
+6. Change mdoe of authorized_keys file - `$ sudo chmod 644 /home/grader/.ssh/authorized_keys`
+7. Finally transfer the ownership of the .ssh directory from root to grader: `$ sudo chown -R grader:grader /home/grader/.ssh` - Recursivly changes ownership of the .ssh directory and it's content.
+8. Open another terminal and try to connect to AWS ubuntu instance as a grader by:  
+`$ ssh -i grader-ssh-key.rsa grader@52.65.144.252 -p 2200`
 
 ## Enforcing SSH Key Login
 By default AWS supplies Ubuntu instance with password login off. But, it is always good to check.  
-So, run `$ sudo cat /etc/ssh/sshd_config` and look for `PasswordAuthorization no` if it is set to `no` got ot [Update all packages](#update-all-packages) section.  
+So, run `$ sudo cat /etc/ssh/sshd_config` and look for `PasswordAuthorization no` if it is set to `no` go to [Update all packages](#update-all-packages) section.  
 If PasswordAuthorization is set to yes:
 1. Edit `/etc/ssh/sshd_config` file by `$ sudo nano /etc/ssh/sshd_config`  
 2. Find line with `PasswordAuthorization yes` and change it to `PasswordAuthorization no`
 3. Save the change by Ctrl + X and exit from nano with Y  
 4. Restart SSH with `$ sudo service ssh restart`  
 
+
+## Install Git
+3. `$ sudo apt-get install git` - Install git.
+
+## Install Apache 2 Server
+
+## Install Your Project
+
 ## Update all packages
 Run 
 1. `$ sudo apt-get update` and once this completes
 2. `$ sudo apt-get upgrade`  
 to get latest packages for your Ubuntu.
-3. `$ sudo apt-get install git` - Install git.
 
-
+## Restart the server
+1. Run `sudo service apache2 restart` - this restarts the server
+2. Check your app at http://52.65.144.252/
 
 ## Contributing
 This is a tutorial report. Please consider other projects.
