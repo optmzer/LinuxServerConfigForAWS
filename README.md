@@ -85,16 +85,30 @@ Configure Ubuntu internal firewall (UFW) to only allow incoming traffic to
 1. Enable the firewall - `sudo ufw enable`
 2. Check firewall rules - `sudo ufw status`
 
+## Creating New User "Grader"
+`$ sudo apt-get install finger` - To check if user was created correctly.
+
 
 ## Setting Up Graders SSH Key Pair
 
 
 ## Enforcing SSH Key Login
-
+By default AWS supplies Ubuntu instance with password login off. But, it is always good to check.  
+So, run `$ sudo cat /etc/ssh/sshd_config` and look for `PasswordAuthorization no` if it is set to `no` got ot [Update all packages](#update-all-packages) section.  
+If PasswordAuthorization is set to yes:
+1. Edit `/etc/ssh/sshd_config` file by `$ sudo nano /etc/ssh/sshd_config`  
+2. Find line with `PasswordAuthorization yes` and change it to `PasswordAuthorization no`
+3. Save the change by Ctrl + X and exit from nano with Y  
+4. Restart SSH with `$ sudo service ssh restart`  
 
 ## Update all packages
+Run 
+1. `$ sudo apt-get update` and once this completes
+2. `$ sudo apt-get upgrade`  
+to get latest packages for your Ubuntu.
+3. `$ sudo apt-get install git` - Install git.
 
-Run `$ sudo apt-get update` and `$ sudo apt-get upgrade` to get latest packages for your Ubuntu.
+
 
 ## Contributing
 This is a tutorial report. Please consider other projects.
