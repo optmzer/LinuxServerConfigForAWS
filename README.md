@@ -70,7 +70,7 @@ Configure Ubuntu internal firewall (UFW) to only allow incoming traffic to
 | HTTP        | 80    | 
 | NTP         | 123   |
 
-`$ sudo ufw status` Check the status of firewall. It should be inactive by default.
+`$ sudo ufw status` - Checks the status of firewall. It should be inactive by default.
 
 * Part I - Deny all traffic
 1. Deny all incoming traffic - `$ sudo ufw default deny incoming `
@@ -81,19 +81,13 @@ Configure Ubuntu internal firewall (UFW) to only allow incoming traffic to
 2. Allow HTTP on port 80 - `$ sudo ufw allow 80/tcp`
 3. Allow NTP on port 123 - `$ sudo ufw allow 123/udp`
 
+* Part III - Enable The Firewall
+1. Enable the firewall - `sudo ufw enable`
+2. Check firewall rules - `sudo ufw status`
 
-
-sudo ufw allow 123/udp -- allow ntp request
-
-sudo ufw deny 22 -- deny incoming request for port 22
-
-sudo ufw enable -- enable ufw
-
-sudo ufw status -- check current status of ufw
-
-Go to AWS page and set up relevant ports from networking tab.
 
 ## Setting Up Graders SSH Key Pair
+
 
 ## Enforcing SSH Key Login
 
