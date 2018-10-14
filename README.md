@@ -2,7 +2,7 @@
 Configuration steps to configure a Ubuntu server and deploy a flusk app on on AWS Lightsail.
 
 ## Server Details
-Public IP: 13.238.254.41  
+Public IP: 13.236.9.9  
 SSH port : 2200  
 
 ## Table of Contents
@@ -34,16 +34,31 @@ I went for generic name.
 3. When redirected to your account page of Lightsail choose SSH Keys tab.
 4. Hit Download button for your location of the instance.  
 file will be named like `LightsailDefaultPrivateKey-<your-resource-location>.pam`
-* Keep this file secure as this is your keys to the server.
+>NOTE:
+>- Keep this file secure as this is your keys to the server.
 5. Navigate to the directory where you placed your `LightsailDefaultPrivateKey-<your-resource-location>.pam` and rename it for ease of use   
 `mv LightsailDefaultPrivateKey-<your-resource-location>.pam lightsail-ssh-key.rsa`
 6. Change access mode to the file `chmod 600 lightsail-ssh-key.rsa`
 7. Connect to your server from your terminal  
-`ssh -i lightsail-ssh-key.rsa ubuntu@13.238.254.41`.
-
-## Setting Up Graders SSH Key Pair
+`ssh -i lightsail-ssh-key.rsa ubuntu@13.236.9.9`.
 
 ## Change Default SSH Port From 22 to 2200
+Edit `/etc/ssh/sshd_config` file by `sudo nano /etc/ssh/sshd_config`
+Edit line with `Port 22` to `Port 2200`
+Save the change by Ctrl + X and exit from nano with Y
+Restart SSH with `sudo service ssh restart`
+>NOTE:
+>- Because AWS has its own fire wall setup you may be locked out. So in your
+>- browser open the instance of Ubunt. Hit Networkking tab. Then in Firewall
+>- section hit `+ Add another` rule button.  
+>- Application | Protocol | Port Range  
+>- ------------+----------+------------
+>- Custom      | TCP      | 2200
+Now you should be able to login with  
+`ssh -i lightsail-ssh-key.rsa ubuntu@13.236.9.9 -p 2200`.
+
+
+## Setting Up Graders SSH Key Pair
 
 ## Enforcing SSH Key Login
 
@@ -58,3 +73,7 @@ This is a tutorial report. Please consider other projects.
 
 ## Author
 Alexander Frolov
+
+## References
+[How To Set Up SSH Keys on Ubuntu 16.04 ](https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-on-ubuntu-1604)  
+[Udacity, Generating Key Pairs](https://classroom.udacity.com/nanodegrees/nd004/parts/b2de4bd4-ef07-45b1-9f49-0e51e8f1336e/modules/56cf3482-b006-455c-8acd-26b37b6458d2/lessons/4331066009/concepts/48010894770923)  
