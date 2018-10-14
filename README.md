@@ -8,10 +8,11 @@ SSH port : 2200
 ## Table of Contents
 - [Create an instance of Ubuntu server Lightsail](#create-an-instance-of-ubuntu-server-lightsail)
 - [Setting Up Your SSH Key Pair](#setting-up-your-ssh-key-pair)
-- [Setting Up Graders SSH Key Pair](#setting-up-graders-ssh-key-pair)
 - [Change Default SSH Port From 22 to 2200](#change-default-ssh-port-from-22-to-2200)
-- [Enforcing SSH Key Login](#enforcing-ssh-key-login)
 - [Setting Up Uncomplicated Firewall](#setting-up-uncomplicated-firewall)
+
+- [Setting Up Graders SSH Key Pair](#setting-up-graders-ssh-key-pair)
+- [Enforcing SSH Key Login](#enforcing-ssh-key-login)
 
 - [Contributing](#contributing)
 - [Author](#author)
@@ -40,33 +41,64 @@ file will be named like `LightsailDefaultPrivateKey-<your-resource-location>.pam
 `mv LightsailDefaultPrivateKey-<your-resource-location>.pam lightsail-ssh-key.rsa`
 6. Change access mode to the file `chmod 600 lightsail-ssh-key.rsa`
 7. Connect to your server from your terminal  
-`ssh -i lightsail-ssh-key.rsa ubuntu@13.236.9.9`.
+`$ ssh -i lightsail-ssh-key.rsa ubuntu@13.236.9.9`.
 
 ## Change Default SSH Port From 22 to 2200
-Edit `/etc/ssh/sshd_config` file by `sudo nano /etc/ssh/sshd_config`
-Edit line with `Port 22` to `Port 2200`
-Save the change by Ctrl + X and exit from nano with Y
-Restart SSH with `sudo service ssh restart`
->NOTE:
->- Because AWS has its own fire wall setup you may be locked out. So in your
->- browser open the instance of Ubunt. Hit Networkking tab. Then in Firewall
->- section hit `+ Add another` rule button.  
->- Application | Protocol | Port Range  
->- ------------+----------+------------
->- Custom      | TCP      | 2200
-Now you should be able to login with  
-`ssh -i lightsail-ssh-key.rsa ubuntu@13.236.9.9 -p 2200`.
+>WARNING:
+> Because AWS has its own fire wall setup you may be locked out. So in your
+> browser open the instance of Ubunt. Hit Networking tab. Then in Firewall
+> section hit `+ Add another` rule button.  
+> Application | Protocol | Port Range  
+> ------------+----------+------------
+> Custom      | TCP      | 2200  
 
+1. Edit `/etc/ssh/sshd_config` file by `$ sudo nano /etc/ssh/sshd_config`  
+2. Edit line with `Port 22` to `Port 2200`  
+3. Save the change by Ctrl + X and exit from nano with Y  
+4. Restart SSH with `$ sudo service ssh restart`  
+
+Now you should be able to login with  
+`$ ssh -i lightsail-ssh-key.rsa ubuntu@13.236.9.9 -p 2200`.
+
+## Setting Up Uncomplicated Firewall
+Configure Ubuntu internal firewall (UFW) to only allow incoming traffic to
+Protocol    | Port
+------------+--------
+SSH         | 2200
+HTTP        | 80
+NTP         | 123
+
+`$ sudo ufw status` Check the status of firewall. It should be inactive by default.
+
+* Part I - Deny all traffic
+1. Deny all incoming traffic - `$ sudo ufw default deny incoming `
+2. Deny all outgoing traffic - `$ sudo ufw default deny outgoing`
+
+* Part II - Allow Only Specific Ports
+1. Allow incoming ssh on port 2200 - `$ sudo ufw allow 2200/tcp`
+2. Allow HTTP on port 80 - `$ sudo ufw allow 80/tcp`
+3. Allow NTP on port 123 - `$ sudo ufw allow 123/udp`
+
+
+
+sudo ufw allow 123/udp -- allow ntp request
+
+sudo ufw deny 22 -- deny incoming request for port 22
+
+sudo ufw enable -- enable ufw
+
+sudo ufw status -- check current status of ufw
+
+Go to AWS page and set up relevant ports from networking tab.
 
 ## Setting Up Graders SSH Key Pair
 
 ## Enforcing SSH Key Login
 
-## Setting Up Uncomplicated Firewall
 
 ## Update all packages
 
-Run `sudo apt-get update` and `sudo apt-get upgrade` to get latest packages for your Ubuntu.
+Run `$ sudo apt-get update` and `$ sudo apt-get upgrade` to get latest packages for your Ubuntu.
 
 ## Contributing
 This is a tutorial report. Please consider other projects.
