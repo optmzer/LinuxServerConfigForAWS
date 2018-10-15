@@ -59,7 +59,9 @@ file will be named like `LightsailDefaultPrivateKey-<your-resource-location>.pam
 4. Restart SSH with `$ sudo service ssh restart`  
 
 >NOTE:
->While we are at it we can disable ssh login as root user. As, by default AWS Ubuntu is >instanciated with `PermitRootLogin prohibit-password`. So we'll change that to >`PermitRootLogin no`
+>While we are at it we can disable ssh login as root user. As, by default AWS Ubuntu is
+>instanciated with `PermitRootLogin prohibit-password`. So we'll change that to
+>`PermitRootLogin no`
 
 Now you should be able to login with  
 `$ ssh -i lightsail-ssh-key.rsa ubuntu@52.65.144.252 -p 2200`.
@@ -129,11 +131,17 @@ If PasswordAuthorization is set to yes:
 3. Save the change by Ctrl + X and exit from nano with Y  
 4. Restart SSH with `$ sudo service ssh restart`  
 
-
 ## Install Git
-3. `$ sudo apt-get install git` - Install git.
+1. `$ sudo apt-get install git` - Installs git.
+2. `$ git config --global user.name <username>` - Configure your username.
+3. `$ git config --global user.email <email>` - Configure your email.
+4. `$ git congin --list` - to check your git configuration.
 
-## Install Apache 2 Server
+## Install Apache 2 Server and mod_wsgi
+1. `$ sudo apt-get install apache2`
+2. `$ sudo apt-get install libapache2-mod-wsgi python-dev` - Installs `mod_wsgi` libraries that enables Apache to serve Flask applications. 
+3. `$ sudo a2enmod wsgi` - Enable mod_wsgi.
+4. `$ sudo service apache2 start` - Start the Apache2 server.
 
 ## Install Your Project
 
