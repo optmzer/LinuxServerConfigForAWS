@@ -91,7 +91,7 @@ Configure Ubuntu internal firewall (UFW) to only allow incoming traffic to
 2. Check firewall rules - `sudo ufw status`
 
 ## Creating New User "Grader"
-`$ sudo apt-get install finger` - for later use to check if user was created correctly.
+`$ sudo apt-get install finger` - for later use to check if user was created correctly.  
 `$ sudo adduser grader` - Adds new user to the system.
 
 ## Give grader sudo access
@@ -112,9 +112,9 @@ Your system will generate 2 files
 2. `grader-ssh-key` - This is your private key, so keep it secret.
 
 On your AWS ubuntu instance:  
-1. Create `/etc/grader/.ssh` folder by `$ sudo mkdir /etc/grader/.ssh`  
-2. Create file with graders ssh public key by `$ sudo nano /etc/grader/.ssh/authorized_keys`  
-3. Copy content of `grader-ssh-key.pub` into `/etc/grader/.ssh/authorized_keys`
+1. Create `/home/grader/.ssh` folder by `$ sudo mkdir /home/grader/.ssh`  
+2. Create file with graders ssh public key by `$ sudo nano /home/grader/.ssh/authorized_keys`  
+3. Copy content of `grader-ssh-key.pub` into `/home/grader/.ssh/authorized_keys`
 4. `ctrl + x` - to exit and press Y to save.
 5. Change mode of .ssh directory - `$ sudo chmod 700 /home/grader/.ssh`
 6. Change mdoe of authorized_keys file - `$ sudo chmod 644 /home/grader/.ssh/authorized_keys`
