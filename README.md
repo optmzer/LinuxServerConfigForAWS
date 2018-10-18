@@ -139,11 +139,25 @@ If PasswordAuthorization is set to yes:
 
 ## Install Apache 2 Server and mod_wsgi
 1. `$ sudo apt-get install apache2`
-2. `$ sudo apt-get install libapache2-mod-wsgi python-dev` - Installs `mod_wsgi` libraries that enables Apache to serve Flask applications. 
+2. `$ sudo apt-get install libapache2-mod-wsgi-py3` - Installs `mod_wsgi` libraries for python 3 that enables Apache to serve Flask applications. 
 3. `$ sudo a2enmod wsgi` - Enable mod_wsgi.
 4. `$ sudo service apache2 start` - Start the Apache2 server.
 
-## Install Your Project
+## Clone Your Project
+On AWS Lightsail instance create a folder `/var/www/thecatalog`  
+`$ sudo git clone https://github.com/optmzer/catalog-web-app /var/www/thecatalog/thecatalog`  
+Now CD to the project folder  
+`$ cd /var/www/thecatalog/thecatalog`  
+and move thecatalog.wsgi one level up.  
+`$ sudo mv thecatalog.wsgi ../thecatalog.wsgi`  
+So the folder structure will look like this.  
+```
+thecatalog\
+    thecatalog.wsgi
+    thecatalog\ - This is project folder to clone to
+    . - The other project files
+    .
+```
 
 ## Update all packages
 Run 
