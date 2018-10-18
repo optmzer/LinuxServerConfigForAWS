@@ -152,12 +152,22 @@ and move thecatalog.wsgi one level up.
 `$ sudo mv thecatalog.wsgi ../thecatalog.wsgi`  
 So the folder structure will look like this.  
 ```
-thecatalog\
+thecatalog/
     thecatalog.wsgi
-    thecatalog\ - This is project folder to clone to
+    thecatalog/ - This is project folder to clone to
     . - The other project files
     .
 ```
+
+## Install virtual environment and other dependancies
+1. `sudo apt install python3-pip` - Install pip3 for python 3 with
+2. `sudo pip3 install virtualenv`
+3. CD to thecatalog project folder `sudo cd /var/www/thecatalog/thecatalog` and create virtual environment for this project.  
+`sudo virtualenv venv`
+4. `source venv/bin/activate` - Activate virtual environment.
+5. `$ sudo chmod -R 777 venv` - Change permissions to virual environment folder.
+6. `sudo pip3 install Flask` - Installs the Flask app
+7. `sudo pip3 install bleach httplib2 request oauth2client sqlalchemy python-psycopg2` - Installs the rest of dependancies for the project to your virtual invironment.
 
 ## Update all packages
 Run 
@@ -176,5 +186,6 @@ This is a tutorial report. Please consider other projects.
 Alexander Frolov
 
 ## References
-[How To Set Up SSH Keys on Ubuntu 16.04 ](https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-on-ubuntu-1604)  
-[Udacity, Generating Key Pairs](https://classroom.udacity.com/nanodegrees/nd004/parts/b2de4bd4-ef07-45b1-9f49-0e51e8f1336e/modules/56cf3482-b006-455c-8acd-26b37b6458d2/lessons/4331066009/concepts/48010894770923)  
+* [How To Deploy a Flask Application on an Ubuntu VPS](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps)
+* [How To Set Up SSH Keys on Ubuntu 16.04 ](https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-on-ubuntu-1604)  
+* [Udacity, Generating Key Pairs](https://classroom.udacity.com/nanodegrees/nd004/parts/b2de4bd4-ef07-45b1-9f49-0e51e8f1336e/modules/56cf3482-b006-455c-8acd-26b37b6458d2/lessons/4331066009/concepts/48010894770923)  
