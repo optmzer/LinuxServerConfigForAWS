@@ -78,17 +78,17 @@ Configure Ubuntu internal firewall (UFW) to only allow incoming traffic to
 `$ sudo ufw status` - Checks the status of firewall. It should be inactive by default.
 
 * Part I - Deny all traffic
-1. Deny all incoming traffic - `$ sudo ufw default deny incoming `
-2. Deny all outgoing traffic - `$ sudo ufw default deny outgoing`
+1. `$ sudo ufw default deny incoming ` - Deny all incoming traffic
+2. `$ sudo ufw default deny outgoing` - Deny all outgoing traffic
 
 * Part II - Allow Only Specific Ports
-1. Allow incoming ssh on port 2200 - `$ sudo ufw allow 2200/tcp`
-2. Allow HTTP on port 80 - `$ sudo ufw allow 80/tcp`
-3. Allow NTP on port 123 - `$ sudo ufw allow 123/udp`
+1. `$ sudo ufw allow 2200/tcp` - Allow incoming ssh on port 2200
+2. `$ sudo ufw allow 80/tcp` - Allow HTTP on port 80
+3. `$ sudo ufw allow 123/udp` - Allow NTP on port 123
 
 * Part III - Enable The Firewall
-1. Enable the firewall - `sudo ufw enable`
-2. Check firewall rules - `sudo ufw status`
+1. `sudo ufw enable` - Enable the firewall
+2. `sudo ufw status` - Check firewall rules
 
 ## Creating New User "Grader"
 `$ sudo apt-get install finger` - for later use to check if user was created correctly.  
@@ -158,7 +158,6 @@ thecatalog/
     . - The other project files
     .
 ```
-
 ## Install virtual environment and other dependancies
 1. `sudo apt install python3-pip` - Install pip3 for python 3 with
 2. `sudo pip3 install virtualenv`
@@ -200,6 +199,42 @@ thecatalog/
 >2. The `ServerAlias www.lightsailthecatalogapp.com` is a preregistered domain name that has its own DNS zone record that points to static IP in `ServerName 52.194.44.145`. Reffer to [Making Route 53 the DNS Service for an Inactive Domain](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/migrate-dns-domain-inactive.html) for details.
 3. `sudo a2ensite thecatalog` - Enables virtual environment. (To stop virtual environment in The Catalog project folder run `$ deactivate`)
 
+## Install and Set Up Data Base
+1. `sudo apt-get install postgresql` - Installs PostgreSQL
+- Part I. Add User To The Data Base
+1. `sudo su - postgres` - Log to your instance as superuser `postgres`
+2. `psql` - Open PostgreSQL terminal
+3. `postgres=# CREATE USER thecatalog WITH PASSWORD 'sequrePass';` - Creates a user named "thecatalog" with password "sequrePass". The user "thecatalog" is the flask app that is going to operate the DB. Namely, uploading images and data to it.
+4. `postgres=# CREATE DATABASE thecatalog WITH OWNER thecatalog;` - Creates Data Base named "thecatalog".
+- Part II. Give User Rights To Create/Modify Data Base and Lock It Up
+1. `postgres=# ALTER USER thecatalog CREATEDB;` - Give right to "thecatalog" user to create Data Base.
+2. `postgres=# CREATE DATABASE thecatalog WITH OWNER thecatalog;` - Creates a data base named "thecatalog" and owned by the user "thecatalog"
+3. `postgres=# \c thecatalog` connects to "thecatalog" database.
+- Part III. Revoke All Public Access Rights To This Data Base.
+1. `thecatalog=# REVOKE ALL ON SCHEMA public FROM public;` - Revokes all public access rites from this DB.
+2. `thecatalog=# GRANT ALL ON SCHEMA public TO thecatalog;` - Transfers all access rights to "thecatalog" user.
+3. `thecatalog=# \q` - Quits PostgreSQL 
+4. `ctrl + D` or type `$ exit` to exit superuser mode and return to grader.
+5. `python3 /var/www/thecatalog/thecatalog/catalog_db_setup.py` - Populates the DB with predifined entries.
+
+## Update Authorized JavaScript Origins.
+1. With your OAuth provider update JavaScript origin entry to allow authorization and redirection to your new address.
+JavaScript origins: `http://www.lightsailthecatalogapp.com`  
+Authorized Redirect: `http://www.lightsailthecatalogapp.com/thecatalog/`
+2. Download JSON file from your OAuth provider with new configuration info.
+
+## Create user_secrets.json
+1. `sudo nano /var/www/thecatalog/thecatalog/user_secrets.json`, so the new project structure will look like this.
+```
+thecatalog/
+    thecatalog.wsgi
+    thecatalog/ - This is project folder to clone to
+    user_secrets.json - New file
+    . - The other project files
+    .
+```
+2. Copy/Paste content of new JSON file from previous step into `user_secrets.josn`.
+
 ## Update all packages
 Run 
 1. `$ sudo apt-get update` and once this completes
@@ -208,7 +243,7 @@ to get latest packages for your Ubuntu.
 
 ## Restart the server
 1. Run `sudo service apache2 restart` - this restarts the server
-2. Check your app at http://52.65.144.252/
+2. Check your app at http://52.194.44.145/ or http://www.lightsailthecatalogapp.com/thecatalog/
 
 ## Contributing
 This is a tutorial report. Please consider other projects.
@@ -220,3 +255,4 @@ Alexander Frolov
 * [How To Deploy a Flask Application on an Ubuntu VPS](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps)
 * [How To Set Up SSH Keys on Ubuntu 16.04 ](https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-on-ubuntu-1604)  
 * [Udacity, Generating Key Pairs](https://classroom.udacity.com/nanodegrees/nd004/parts/b2de4bd4-ef07-45b1-9f49-0e51e8f1336e/modules/56cf3482-b006-455c-8acd-26b37b6458d2/lessons/4331066009/concepts/48010894770923)  
+* [How To Secure PostgreSQL on an Ubuntu VPS](https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps)
