@@ -169,6 +169,37 @@ thecatalog/
 6. `sudo pip3 install Flask` - Installs the Flask app
 7. `sudo pip3 install bleach httplib2 request oauth2client sqlalchemy python-psycopg2` - Installs the rest of dependancies for the project to your virtual invironment.
 
+## Configure Virtual Host
+1. `sudo nano /etc/apache2/sites-available/thecatalog.conf` - Create thecatalog.conf file
+2. Add the folowing content to it:
+```
+<VirtualHost *:80>
+    ServerName 52.194.44.145
+    ServerAlias www.lightsailthecatalogapp.com
+    ServerAdmin your@email.com
+    WSGIDaemonProcess thecatalog python-path=/var/www/thecatalog:/var/www/thecatalog/thecatalog:/var/www/thecatalog/thecatalog/venv/lib/python3.5/site-packages:/usr/local/lib/python3.5/dist-packages
+    WSGIProcessGroup thecatalog
+    WSGIScriptAlias / /var/www/thecatalog/thecatalog.wsgi
+    <Directory /var/www/thecatalog/thecatalog/>
+        Order allow,deny
+        Allow from all
+    </Directory>
+    Alias /static /var/www/thecatalog/thecatalog/static
+    <Directory /var/www/thecatalog/thecatalog/static/>
+        Order allow,deny
+        Allow from all
+    </Directory>
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    LogLevel warn
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+```
+>NOTE:
+>The `WSGIDaemonProcess thecatalog python-path=path01:path02:path03` variable specifies where to
+>look for your packages and dependancies for the project.
+3. `sudo a2ensite thecatalog` - Enables virtual environment. (To stop virtual environment in The Catalog project folder run `$ deactivate`)
+
 ## Update all packages
 Run 
 1. `$ sudo apt-get update` and once this completes
