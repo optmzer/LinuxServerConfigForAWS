@@ -196,8 +196,8 @@ thecatalog/
 
 ```
 >NOTE:
->The `WSGIDaemonProcess thecatalog python-path=path01:path02:path03` variable specifies where to
->look for your packages and dependancies for the project.
+>1. The `WSGIDaemonProcess thecatalog python-path=path01:path02:path03` variable specifies where to look for your packages and dependancies for the project.
+>2. The `ServerAlias www.lightsailthecatalogapp.com` is a preregistered domain name that has its own DNS zone record that points to static IP in `ServerName 52.194.44.145`. Reffer to [Making Route 53 the DNS Service for an Inactive Domain](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/migrate-dns-domain-inactive.html) for details.
 3. `sudo a2ensite thecatalog` - Enables virtual environment. (To stop virtual environment in The Catalog project folder run `$ deactivate`)
 
 ## Update all packages
