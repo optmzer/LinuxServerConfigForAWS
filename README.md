@@ -21,7 +21,7 @@ SSH port : 2200
 - [Configure Virtual Host](#[configure-irtual-host)
 - [Install and Set Up Data Base](#install-and-set-up-data-base)
 - [Update Authorized JavaScript Origins](#update-authorized-javascript-origins)
-- [Create user_secrets.json](#create-user_secrets-json)
+- [Create user_secrets json](#create-user_secrets-json)
 - [Update all packages](#update-all-packages)
 - [Restart the server](#restart-the-server)
 - [Contributing](#contributing)
@@ -235,7 +235,7 @@ JavaScript origins: `http://www.lightsailthecatalogapp.com`
 Authorized Redirect: `http://www.lightsailthecatalogapp.com/thecatalog/`
 2. Download JSON file from your OAuth provider with new configuration info.
 
-## Create user_secrets.json
+## Create user_secrets json
 1. `sudo nano /var/www/thecatalog/thecatalog/user_secrets.json`, so the new project structure will look like this.
 ```
 thecatalog/
