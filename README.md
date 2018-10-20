@@ -10,12 +10,23 @@ SSH port : 2200
 - [Setting Up Your SSH Key Pair](#setting-up-your-ssh-key-pair)
 - [Change Default SSH Port From 22 to 2200](#change-default-ssh-port-from-22-to-2200)
 - [Setting Up Uncomplicated Firewall](#setting-up-uncomplicated-firewall)
-
+- [Creating New User Grader](#creating-newuser-grader)
+- [Give grader sudo access](#give-grader-sudo-access)
 - [Setting Up Graders SSH Key Pair](#setting-up-graders-ssh-key-pair)
 - [Enforcing SSH Key Login](#enforcing-ssh-key-login)
-
+- [Install Git](#install-git)
+- [Install Apache 2 Server and mod_wsgi](#install-apache-2-server-and-mod_wsgi)
+- [Clone Your Project](#clone-your-project)
+- [Install virtual environment and other dependencies](#install-virtual-environment-and-other-dependencies)
+- [Configure Virtual Host](#[configure-irtual-host)
+- [Install and Set Up Data Base](#install-and-set-up-data-base)
+- [Update Authorized JavaScript Origins](#update-authorized-javascript-origins)
+- [Create user_secrets.json](#create-user_secrets.json)
+- [Update all packages](#update-all-packages)
+- [Restart the server](#restart-the-server)
 - [Contributing](#contributing)
 - [Author](#author)
+- [References](#references)
 
 ## Create an instance of Ubuntu server Lightsail
 1. Go to AWS Management Console.
@@ -90,7 +101,7 @@ Configure Ubuntu internal firewall (UFW) to only allow incoming traffic to
 1. `sudo ufw enable` - Enable the firewall
 2. `sudo ufw status` - Check firewall rules
 
-## Creating New User "Grader"
+## Creating New User Grader
 `$ sudo apt-get install finger` - for later use to check if user was created correctly.  
 `$ sudo adduser grader` - Adds new user to the system.
 
@@ -158,7 +169,8 @@ thecatalog/
     . - The other project files
     .
 ```
-## Install virtual environment and other dependancies
+
+## Install virtual environment and other dependencies
 1. `sudo apt install python3-pip` - Install pip3 for python 3 with
 2. `sudo pip3 install virtualenv`
 3. CD to thecatalog project folder `sudo cd /var/www/thecatalog/thecatalog` and create virtual environment for this project.  
@@ -166,7 +178,7 @@ thecatalog/
 4. `source venv/bin/activate` - Activate virtual environment.
 5. `$ sudo chmod -R 777 venv` - Change permissions to virual environment folder.
 6. `sudo pip3 install Flask` - Installs the Flask app
-7. `sudo pip3 install bleach httplib2 request oauth2client sqlalchemy python-psycopg2` - Installs the rest of dependancies for the project to your virtual invironment.
+7. `sudo pip3 install bleach httplib2 request oauth2client sqlalchemy python-psycopg2` - Installs the rest of dependencies for the project to your virtual invironment.
 
 ## Configure Virtual Host
 1. `sudo nano /etc/apache2/sites-available/thecatalog.conf` - Create thecatalog.conf file
@@ -195,7 +207,7 @@ thecatalog/
 
 ```
 >NOTE:
->1. The `WSGIDaemonProcess thecatalog python-path=path01:path02:path03` variable specifies where to look for your packages and dependancies for the project.
+>1. The `WSGIDaemonProcess thecatalog python-path=path01:path02:path03` variable specifies where to look for your packages and dependencies for the project.
 >2. The `ServerAlias www.lightsailthecatalogapp.com` is a preregistered domain name that has its own DNS zone record that points to static IP in `ServerName 52.194.44.145`. Reffer to [Making Route 53 the DNS Service for an Inactive Domain](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/migrate-dns-domain-inactive.html) for details.
 3. `sudo a2ensite thecatalog` - Enables virtual environment. (To stop virtual environment in The Catalog project folder run `$ deactivate`)
 
@@ -217,7 +229,7 @@ thecatalog/
 4. `ctrl + D` or type `$ exit` to exit superuser mode and return to grader.
 5. `python3 /var/www/thecatalog/thecatalog/catalog_db_setup.py` - Populates the DB with predifined entries.
 
-## Update Authorized JavaScript Origins.
+## Update Authorized JavaScript Origins
 1. With your OAuth provider update JavaScript origin entry to allow authorization and redirection to your new address.
 JavaScript origins: `http://www.lightsailthecatalogapp.com`  
 Authorized Redirect: `http://www.lightsailthecatalogapp.com/thecatalog/`
