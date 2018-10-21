@@ -79,7 +79,7 @@ Now you should be able to login with
 `$ ssh -i lightsail-ssh-key.rsa ubuntu@52.65.144.252 -p 2200`.
 
 ## Setting Up Uncomplicated Firewall
-Configure Ubuntu internal firewall (UFW) to only allow specified traffic to ports.
+Configure Ubuntu internal firewall (UFW) to only allow specified traffic to ports.  
 `$ sudo ufw status` - Checks the status of firewall. It should be inactive by default.
 
 * Part I - Deny all traffic
@@ -97,22 +97,22 @@ Configure Ubuntu internal firewall (UFW) to only allow specified traffic to port
 1. `sudo ufw enable` - Enable the firewall
 2. `sudo ufw status` - Check firewall rules
 
->Firewall snapshot.
+>Firewall snapshot.  
 
-No  |        To     |             Action  |    From         |
----:|     :---      |                :--- |    :---         |    --- 
-[ 1]| 2200/tcp      |            ALLOW IN |  Anywhere       |
-[ 2]| 123/udp       |            ALLOW IN |  Anywhere       |
-[ 3]| 80            |            ALLOW OUT|  Anywhere       |           (out)
-[ 4]| 80            |            ALLOW IN |  Anywhere       |
-[ 5]| 443           |            ALLOW OUT|  Anywhere       |           (out)
-[ 6]| 53            |            ALLOW OUT|  Anywhere       |           (out)
-[ 7]| 2200/tcp (v6) |            ALLOW IN |  Anywhere (v6)  |
-[ 8]| 123/udp (v6)  |            ALLOW IN |  Anywhere (v6)  |
-[ 9]| 80 (v6)       |            ALLOW OUT|  Anywhere (v6)  |           (out)
-[10]| 80 (v6)       |            ALLOW IN |  Anywhere (v6)  |
-[11]| 443 (v6)      |            ALLOW OUT|  Anywhere (v6)  |           (out)
-[12]| 53 (v6)       |            ALLOW OUT|  Anywhere (v6)  |           (out)
+| No  |        To     |             Action  |    From         |                 |
+| ---:|     :---      |                :--- |    :---         |    ---          |
+| [ 1]| 2200/tcp      |            ALLOW IN |  Anywhere       |                 |
+| [ 2]| 123/udp       |            ALLOW IN |  Anywhere       |                 |
+| [ 3]| 80            |            ALLOW OUT|  Anywhere       |           (out) |
+| [ 4]| 80            |            ALLOW IN |  Anywhere       |                 |
+| [ 5]| 443           |            ALLOW OUT|  Anywhere       |           (out) |
+| [ 6]| 53            |            ALLOW OUT|  Anywhere       |           (out) |
+| [ 7]| 2200/tcp (v6) |            ALLOW IN |  Anywhere (v6)  |                 |
+| [ 8]| 123/udp (v6)  |            ALLOW IN |  Anywhere (v6)  |                 |
+| [ 9]| 80 (v6)       |            ALLOW OUT|  Anywhere (v6)  |           (out) |
+| [10]| 80 (v6)       |            ALLOW IN |  Anywhere (v6)  |                 |
+| [11]| 443 (v6)      |            ALLOW OUT|  Anywhere (v6)  |           (out) |
+| [12]| 53 (v6)       |            ALLOW OUT|  Anywhere (v6)  |           (out) |
 
 ## Creating New User Grader
 `$ sudo apt-get install finger` - for later use to check if user was created correctly.  
