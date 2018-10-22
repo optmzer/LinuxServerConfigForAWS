@@ -2,9 +2,9 @@
 Configuration steps to configure a Ubuntu server and deploy a flusk app on on AWS Lightsail.
 
 ## Server Details
-DNS: http://www.lightsailthecatalogapp.com/thecatalog/
-Public IP: 52.194.44.145 
-SSH port : 2200  
+URL: http://www.lightsailthecatalogapp.com/thecatalog/  
+Public IP: 52.194.44.145  
+SSH port : 2200    
 
 ## Table of Contents
 - [Create an instance of Ubuntu server Lightsail](#create-an-instance-of-ubuntu-server-lightsail)
@@ -19,7 +19,7 @@ SSH port : 2200
 - [Install Apache 2 Server and mod_wsgi](#install-apache-2-server-and-mod_wsgi)
 - [Clone Your Project](#clone-your-project)
 - [Install virtual environment and other dependencies](#install-virtual-environment-and-other-dependencies)
-- [Configure Virtual Host](#[configure-irtual-host)
+- [Configure Virtual Host](#configure-virtual-host)
 - [Install and Set Up Data Base](#install-and-set-up-data-base)
 - [Update Authorized JavaScript Origins](#update-authorized-javascript-origins)
 - [Create user_secrets json](#create-user_secrets-json)
@@ -95,7 +95,7 @@ Configure Ubuntu internal firewall (UFW) to only allow specified traffic to port
 
 * Part III - Enable The Firewall
 1. `sudo ufw enable` - Enable the firewall
-2. `sudo ufw status` - Check firewall rules
+2. `sudo ufw status numbered` - Check firewall rules
 
 >Firewall snapshot.  
 
@@ -205,11 +205,6 @@ thecatalog/
     WSGIProcessGroup thecatalog
     WSGIScriptAlias / /var/www/thecatalog/thecatalog.wsgi
     <Directory /var/www/thecatalog/thecatalog/>
-        Order allow,deny
-        Allow from all
-    </Directory>
-    Alias /static /var/www/thecatalog/thecatalog/static
-    <Directory /var/www/thecatalog/thecatalog/static/>
         Order allow,deny
         Allow from all
     </Directory>
